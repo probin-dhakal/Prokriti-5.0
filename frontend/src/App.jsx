@@ -252,7 +252,7 @@ export default function App() {
       {isMobile ? (
         selectedProblem && (
           <div className="fixed inset-0 bg-black/30 backdrop-blur-lg z-50 flex items-end md:items-center justify-center p-0 md:p-4">
-            <div className="relative bg-white/80 border-4 border-green-300/40 rounded-t-3xl md:rounded-3xl w-screen md:max-w-4xl max-h-[80vh] overflow-y-auto shadow-2xl">
+            <div className="relative bg-white/80 border-t-4 border-green-300/40 rounded-t-3xl md:rounded-3xl w-screen md:max-w-4xl max-h-[80vh] overflow-y-auto shadow-2xl">
               <div className="p-6 md:p-10">
                 <div className="flex justify-between items-start mb-6 md:mb-8">
                   <div className="flex items-center space-x-3 md:space-x-4">
