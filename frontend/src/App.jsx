@@ -127,12 +127,12 @@ export default function App() {
               <span className="text-green-700 font-bold text-lg">PROKRITI 5.0 - World Environment Day 2025</span>
             </div>
             
-            <h1 className="text-7xl md:text-8xl font-black mb-8 leading-none">
+            <h1 className="text-6xl md:text-7xl lg:text-8xl font-black mb-8 leading-none">
               <span className="bg-gradient-to-r from-green-600 via-emerald-500 to-teal-600 bg-clip-text text-transparent">
                 GREEN X
               </span>
               <br />
-              <span className="bg-gradient-to-r from-amber-600 via-yellow-500 to-orange-600 bg-clip-text text-transparent">
+              <span className="text-5xl md:text-7xl lg:text-8xl bg-gradient-to-r from-amber-600 via-yellow-500 to-orange-600 bg-clip-text text-transparent">
                 HACKATHON
               </span>
             </h1>
@@ -227,7 +227,7 @@ export default function App() {
       {/* Problem Details Modal */}
       {selectedProblem && (
         <div className="fixed inset-0 bg-black/30 backdrop-blur-lg z-50 flex items-center justify-center p-4">
-          <div className="bg-white/40 backdrop-blur-xl border-2 border-green-200/40 rounded-3xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
+          <div className="bg-white/80 border-4 border-green-300/40 rounded-3xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
             <div className="p-10">
               <div className="flex justify-between items-start mb-8">
                 <div className="flex items-center space-x-4">
@@ -238,7 +238,7 @@ export default function App() {
                 </div>
                 <button
                   onClick={() => setSelectedProblem(null)}
-                  className="text-green-600 hover:text-green-800 text-4xl font-light w-12 h-12 flex items-center justify-center rounded-full hover:bg-green-100/30 transition-all"
+                  className="text-green-600 hover:text-green-800 text-4xl font-light w-12 h-12 flex items-center justify-center rounded-full hover:bg-green-100/30 transition-all cursor-pointer"
                 >
                   ×
                 </button>
@@ -264,7 +264,7 @@ export default function App() {
               <div className="flex gap-4">
                 <button
                   onClick={() => setSelectedProblem(null)}
-                  className="flex-1 bg-green-100/50 border-2 border-green-300/50 text-green-700 py-4 rounded-xl font-bold text-lg hover:bg-green-200/50 transition-all"
+                  className="flex-1 bg-green-100/50 border-2 border-green-300/50 text-green-700 py-4 rounded-xl font-bold text-lg hover:bg-green-200/50 transition-all cursor-pointer"
                 >
                   Close
                 </button>
