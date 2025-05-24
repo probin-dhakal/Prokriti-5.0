@@ -274,6 +274,35 @@ export default function App() {
         </div>
       )}
 
+
+
+{/* Submission Section */}
+<section className="relative pb-32 px-6 lg:px-8">
+  <div className="max-w-7xl mx-auto text-center">
+    <div className="bg-white/30 backdrop-blur-xl border-2 border-green-200/30 rounded-3xl p-12 mx-auto max-w-4xl shadow-xl">
+      <h2 className="text-4xl md:text-5xl font-black text-green-800 mb-6">
+        Ready to <span className="bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">Submit?</span>
+      </h2>
+      <p className="text-xl text-green-700/80 mb-8 max-w-3xl mx-auto leading-relaxed">
+        Finalize your solution and submit your presentation through our official submission portal.
+      </p>
+      <a 
+        href="https://docs.google.com/forms/your-form-link" 
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-full font-bold text-lg hover:from-green-600 hover:to-emerald-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+      >
+        Submit Your Solution
+        <ExternalLink className="w-5 h-5 ml-2" />
+      </a>
+      <p className="text-green-600/70 mt-4 text-sm">
+        Submissions close on June 7, 2025 at 11:59 PM IST
+      </p>
+    </div>
+  </div>
+</section>
+
+
       {/* Contact Section */}
       <section id="contact" className="relative py-32 px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
