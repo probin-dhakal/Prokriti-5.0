@@ -9,8 +9,8 @@ export default function Loading({ onLoadingComplete }) {
       setFadeOut(true);
       setTimeout(() => {
         onLoadingComplete();
-      }, 800);
-    }, 4000);
+      }, 600);
+    }, 3000);
 
     return () => clearTimeout(timer);
   }, [onLoadingComplete]);
