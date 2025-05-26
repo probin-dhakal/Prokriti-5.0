@@ -1,14 +1,23 @@
+
+
 import React, { useState, useEffect } from 'react';
 import { Calendar, Award, Users, Code, Leaf, Phone, Mail, ExternalLink, Zap, Globe, Brain, Lock, Unlock } from 'lucide-react';
 import Loading from './Loading';
 import Timeline from './Timeline';
-
+import { useCallback } from 'react';
 export default function App() {
   const [selectedProblem, setSelectedProblem] = useState(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isLoading, setIsLoading] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
   const [isEnabled, setIsEnabled] = useState(false);
+  const [timeLeft, setTimeLeft] = useState({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0
+  });
+
   useEffect(() => {
     if (selectedProblem) {
       document.body.style.overflow = 'hidden';
@@ -20,13 +29,36 @@ export default function App() {
     };
   }, [selectedProblem]);
 
-   useEffect(() => {
+  useEffect(() => {
     // Target time in IST (UTC+5:30)
-    const enableDate = new Date('2025-05-28T00:00:00+05:30');
+    const enableDate = new Date('2025-05-29T00:00:00+05:30');
     const now = new Date();
 
     if (now >= enableDate) {
       setIsEnabled(true);
+    } else {
+      // Calculate time remaining
+      const updateCountdown = () => {
+        const now = new Date();
+        const diff = enableDate - now;
+
+        if (diff <= 0) {
+          setIsEnabled(true);
+          clearInterval(interval);
+          return;
+        }
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+        setTimeLeft({ days, hours, minutes, seconds });
+      };
+
+      updateCountdown();
+      const interval = setInterval(updateCountdown, 1000);
+      return () => clearInterval(interval);
     }
   }, []);
 
@@ -78,9 +110,14 @@ export default function App() {
     }
   ];
 
+  const handleLoadingComplete = useCallback(() => {
+    setIsLoading(false);
+  }, []);
+  
   if (isLoading) {
-    return <Loading onLoadingComplete={() => setIsLoading(false)} />;
+    return <Loading onLoadingComplete={handleLoadingComplete} />;
   }
+  
 
   return (
     <div className="min-h-screen bg-transparent overflow-hidden animate-fadeIn relative">
@@ -213,50 +250,104 @@ export default function App() {
             </p>
           </div>
 
-          <div className="grid lg:grid-cols-3 gap-8">
-            {problemStatements.map((problem, index) => (
-              <div
-                key={problem.id}
-                className="group cursor-pointer h-full"
-                onClick={() => setSelectedProblem(problem)}
-                style={{ animationDelay: `${index * 150}ms` }}
-              >
-                <div className="relative bg-white/30 backdrop-blur-xl border-2 border-green-200/30 rounded-3xl p-8 hover:bg-white/40 transition-all duration-500 hover:scale-105 hover:border-green-300/50 shadow-xl hover:shadow-2xl h-full flex flex-col">
-                  {/* Gradient overlay */}
-                  <div className={`absolute inset-0 bg-gradient-to-br ${problem.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-500 rounded-3xl`}></div>
+          {/* Countdown Timer */}
+          {!isEnabled && (
+            <div className="bg-white/30 backdrop-blur-xl border-2 border-green-200/30 rounded-3xl p-8 mb-12 text-center shadow-xl">
+              <h3 className="text-2xl md:text-3xl font-bold text-green-800 mb-6">
+                Problems will be revealed in:
+              </h3>
+              <div className="flex justify-center gap-4 md:gap-8">
+                <div className="flex flex-col items-center">
+                  <div className="text-3xl md:text-5xl font-black bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
+                    {timeLeft.days}
+                  </div>
+                  <div className="text-green-700 font-medium">Days</div>
+                </div>
+                <div className="flex flex-col items-center">
+                  <div className="text-3xl md:text-5xl font-black bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
+                    {timeLeft.hours}
+                  </div>
+                  <div className="text-green-700 font-medium">Hours</div>
+                </div>
+                <div className="flex flex-col items-center">
+                  <div className="text-3xl md:text-5xl font-black bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
+                    {timeLeft.minutes}
+                  </div>
+                  <div className="text-green-700 font-medium">Minutes</div>
+                </div>
+                <div className="flex flex-col items-center">
+                  <div className="text-3xl md:text-5xl font-black bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
+                    {Math.floor(timeLeft.seconds)}
+                  </div>
+                  <div className="text-green-700 font-medium">Seconds</div>
+                </div>
+              </div>
+              <p className="mt-6 text-green-600/70">
+                Problems will be available at 00:00 AM IST on May 29, 2025
+              </p>
+            </div>
+          )}
 
-                  <div className="relative z-10 flex flex-col h-full">
-                    <div className={`inline-flex p-5 bg-gradient-to-r ${problem.gradient} rounded-2xl mb-6 text-white group-hover:scale-110 transition-transform duration-300 shadow-lg w-fit`}>
-                      {problem.icon}
-                    </div>
+          <div className="relative">
+            <div className={`grid lg:grid-cols-3 gap-8 transition-all duration-500 ${isEnabled ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+              {problemStatements.map((problem, index) => (
+                <div
+                  key={problem.id}
+                  className="group cursor-pointer h-full"
+                  onClick={() => setSelectedProblem(problem)}
+                  style={{ animationDelay: `${index * 150}ms` }}
+                >
+                  <div className="relative bg-white/30 backdrop-blur-xl border-2 border-green-200/30 rounded-3xl p-8 hover:bg-white/40 transition-all duration-500 hover:scale-105 hover:border-green-300/50 shadow-xl hover:shadow-2xl h-full flex flex-col">
+                    {/* Gradient overlay */}
+                    <div className={`absolute inset-0 bg-gradient-to-br ${problem.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-500 rounded-3xl`}></div>
 
-                    <h3 className="text-2xl font-bold text-green-800 mb-4 group-hover:bg-gradient-to-r group-hover:from-green-700 group-hover:to-emerald-700 group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300">
-                      {problem.title}
-                    </h3>
+                    <div className="relative z-10 flex flex-col h-full">
+                      <div className={`inline-flex p-5 bg-gradient-to-r ${problem.gradient} rounded-2xl mb-6 text-white group-hover:scale-110 transition-transform duration-300 shadow-lg w-fit`}>
+                        {problem.icon}
+                      </div>
 
-                    <p className="text-green-700/80 mb-6 leading-relaxed text-lg flex-grow">
-                      {problem.description}
-                    </p>
+                      <h3 className="text-2xl font-bold text-green-800 mb-4 group-hover:bg-gradient-to-r group-hover:from-green-700 group-hover:to-emerald-700 group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300">
+                        {problem.title}
+                      </h3>
 
-                    <div className="flex flex-wrap gap-3 mb-8">
-                      {problem.tags.map((tag, tagIndex) => (
-                        <span
-                          key={tagIndex}
-                          className="px-4 py-2 bg-green-100/50 border-2 border-green-300/30 text-green-700 rounded-full text-sm font-bold backdrop-blur-sm"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
+                      <p className="text-green-700/80 mb-6 leading-relaxed text-lg flex-grow">
+                        {problem.description}
+                      </p>
 
-                    <div className={`inline-flex items-center bg-gradient-to-r ${problem.gradient} bg-clip-text text-transparent font-bold text-lg group-hover:scale-105 transition-transform mt-auto`}>
-                      Explore Challenge
-                      <ExternalLink className="w-5 h-5 ml-2" />
+                      <div className="flex flex-wrap gap-3 mb-8">
+                        {problem.tags.map((tag, tagIndex) => (
+                          <span
+                            key={tagIndex}
+                            className="px-4 py-2 bg-green-100/50 border-2 border-green-300/30 text-green-700 rounded-full text-sm font-bold backdrop-blur-sm"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+
+                      <div className={`inline-flex items-center bg-gradient-to-r ${problem.gradient} bg-clip-text text-transparent font-bold text-lg group-hover:scale-105 transition-transform mt-auto`}>
+                        Explore Challenge
+                        <ExternalLink className="w-5 h-5 ml-2" />
+                      </div>
                     </div>
                   </div>
                 </div>
+              ))}
+            </div>
+
+            {/* Blurred overlay that disappears when countdown ends */}
+            {!isEnabled && (
+              <div className="absolute inset-0 bg-white/80 backdrop-blur-lg rounded-3xl flex items-center justify-center">
+                <div className="text-center p-8">
+                  <Lock className="w-16 h-16 mx-auto text-green-600 mb-4" />
+                  <h3 className="text-3xl font-bold text-green-800 mb-2">Problems Locked</h3>
+                  <p className="text-xl text-green-700/80 max-w-2xl mx-auto">
+                    The problem statements will be revealed when the countdown reaches zero.
+                    Stay tuned for the exciting challenges ahead!
+                  </p>
+                </div>
               </div>
-            ))}
+            )}
           </div>
         </div>
       </section>
@@ -266,34 +357,50 @@ export default function App() {
 
       {/* Submission Section */}
       <section className="relative pb-32 px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto text-center">
-        <div className="bg-white/30 backdrop-blur-xl border-2 border-green-200/30 rounded-3xl p-12 mx-auto max-w-4xl shadow-xl">
-          <h2 className="text-4xl md:text-5xl font-black text-green-800 mb-6">
-            Ready to <span className="bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">Submit?</span>
-          </h2>
-          <p className="text-xl text-green-700/80 mb-8 max-w-3xl mx-auto leading-relaxed">
-            Finalize your solution and submit your presentation through our official submission portal.
-          </p>
-          <a
-            href="https://forms.gle/XtbMSB2v4w58wz646"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`inline-flex items-center px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 shadow-lg transform
-              ${isEnabled
-                ? 'bg-gradient-to-r from-green-500 to-emerald-600 text-white hover:from-green-600 hover:to-emerald-700 hover:shadow-xl hover:scale-105'
-                : 'bg-gray-400 text-white cursor-not-allowed pointer-events-none'}`}
-            aria-disabled={!isEnabled}
-          >
-            Submit Your Solution
-            <ExternalLink className="w-5 h-5 ml-2" />
-          </a>
-          <p className="text-green-600/70 mt-4 text-sm">
-            Submissions open at 12:00 AM IST on May 28, 2025
-          </p>
+        <div className="max-w-7xl mx-auto text-center">
+          <div className="bg-white/30 backdrop-blur-xl border-2 border-green-200/30 rounded-3xl p-12 mx-auto max-w-4xl shadow-xl">
+            <h2 className="text-4xl md:text-5xl font-black text-green-800 mb-6">
+              Ready to <span className="bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">Submit?</span>
+            </h2>
+            <p className="text-xl text-green-700/80 mb-8 max-w-3xl mx-auto leading-relaxed">
+              Finalize your solution and submit your presentation through our official submission portal.
+            </p>
+            <a
+              href="https://forms.gle/XtbMSB2v4w58wz646"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`inline-flex items-center px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 shadow-lg transform
+                ${isEnabled
+                  ? 'bg-gradient-to-r from-green-500 to-emerald-600 text-white hover:from-green-600 hover:to-emerald-700 hover:shadow-xl hover:scale-105'
+                  : 'bg-gray-400 text-white cursor-not-allowed pointer-events-none'}`}
+              aria-disabled={!isEnabled}
+            >
+              Submit Your Solution Round-1
+              <ExternalLink className="w-5 h-5 ml-2" />
+            </a>
+            <p className="text-green-600/70 mt-4 text-sm">
+              Submissions open at 12:00 AM IST on May 29, 2025
+            </p>
+            <div>.</div>
+            <a
+              href="https://forms.gle/XtbMSB2v4w58wz646"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`inline-flex items-center px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 shadow-lg transform
+                ${isEnabled
+                  ? 'bg-gradient-to-r from-green-500 to-emerald-600 text-white hover:from-green-600 hover:to-emerald-700 hover:shadow-xl hover:scale-105'
+                  : 'bg-gray-400 text-white cursor-not-allowed pointer-events-none'}`}
+              aria-disabled={!isEnabled}
+            >
+              Submit Your Solution Round-2
+              <ExternalLink className="w-5 h-5 ml-2" />
+            </a>
+            <p className="text-green-600/70 mt-4 text-sm">
+              Submissions open at 11:59 PM IST on june 7, 2025
+            </p>
+          </div>
         </div>
-      </div>
-    </section>
-
+      </section>
 
       {/* Contact Section */}
       <section id="contact" className="relative py-32 px-6 lg:px-8">
@@ -444,21 +551,22 @@ export default function App() {
           </div>
         </div>
       )}
+    <style jsx>{`
+         @keyframes fadeIn {
+           from { opacity: 0; }
+           to { opacity: 1; }
+         }
+         .animate-fadeIn {
+           animation: fadeIn 1s ease-out;
+         }
+         @keyframes floatLeaf {
+           0% { transform: translateY(0) rotate(0deg); }
+           50% { transform: translateY(-20px) rotate(10deg); }
+           100% { transform: translateY(0) rotate(0deg); }
+         }
+       `}</style>
 
-      <style jsx>{`
-        @keyframes fadeIn {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-        .animate-fadeIn {
-          animation: fadeIn 1s ease-out;
-        }
-        @keyframes floatLeaf {
-          0% { transform: translateY(0) rotate(0deg); }
-          50% { transform: translateY(-20px) rotate(10deg); }
-          100% { transform: translateY(0) rotate(0deg); }
-        }
-      `}</style>
+
     </div>
   );
 }

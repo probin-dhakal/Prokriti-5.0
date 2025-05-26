@@ -7,11 +7,14 @@ export default function Loading({ onLoadingComplete }) {
   useEffect(() => {
     const timer = setTimeout(() => {
       setFadeOut(true);
-      setTimeout(() => {
+      // Wait for fade-out animation to complete before calling onLoadingComplete
+      const completionTimer = setTimeout(() => {
         onLoadingComplete();
-      }, 600);
+      }, 600); // Should match your CSS transition duration
+      
+      return () => clearTimeout(completionTimer);
     }, 3000);
-
+  
     return () => clearTimeout(timer);
   }, [onLoadingComplete]);
 
@@ -66,6 +69,7 @@ export default function Loading({ onLoadingComplete }) {
             <img 
               src="/logo.png" 
               alt="NITS Eco Club Logo" 
+              loading="eager"
               className="w-24 h-24 logo-bounce z-10 relative drop-shadow-lg"
             />
             

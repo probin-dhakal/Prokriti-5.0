@@ -16,34 +16,54 @@ export default function Timeline({ isMobile }) {
     {
       title: "Problem Statement Announcement",
       date: new Date("2025-05-28T00:00:00"),
+      unlockDate: new Date("2025-05-28T00:00:00"),
       deliverable: "Competition Kick-off",
       note: "Check website for detailed problem statements"
     },
     {
-      title: "Round 1 Submissions",
-      date: new Date("2025-06-02T23:59:00"),
-      deliverable: "Concept Brief Submission",
+      title: "Round 1 Submissions Open",
+      date: new Date("2025-05-28T00:00:00"),
+      unlockDate: new Date("2025-05-28T00:00:00"),
+      deliverable: "Submission window begins",
       note: "File format: teamname_round1_greenx.*"
     },
     {
-      title: "Shortlist Announcement",
-      date: new Date("2025-06-02T18:00:00"),
-      deliverable: "Top 6 Teams Selected"
+      title: "Round 1 Submissions Close",
+      date: new Date("2025-06-02T23:59:00"),
+      unlockDate: new Date("2025-05-28T00:00:00"),
+      deliverable: "Concept Brief Submission Deadline",
+      note: "Submit before this time"
     },
     {
-      title: "Round 2 PPT Submission",
-      date: new Date("2025-06-07T23:59:00"),
-      deliverable: "Detailed Presentation Deck",
-      note: "File format: teamname_round2_greenx.pptx"
+      title: "Round 1 Results Announcement",
+      date: new Date("2025-06-03T23:59:00"),
+      unlockDate: new Date("2025-06-03T00:00:00"),
+      deliverable: "Top 10 Teams Selected"
+    },
+    {
+      title: "Round 2 Submissions Open",
+      date: new Date("2025-06-04T00:00:00"),
+      unlockDate: new Date("2025-06-04T00:00:00"),
+      deliverable: "Detailed solution window begins",
+      note: "File format: teamname_round2_greenx.*"
+    },
+    {
+      title: "Round 2 Submissions Close",
+      date: new Date("2025-06-10T23:59:00"),
+      unlockDate: new Date("2025-06-04T00:00:00"),
+      deliverable: "Detailed Presentation Deck Deadline",
+      note: "Submit before this time"
     },
     {
       title: "Final Presentation Day",
-      date: new Date("2025-06-08T10:00:00"),
+      date: new Date("2025-06-11T10:00:00"),
+      unlockDate: new Date("2025-06-11T00:00:00"),
       deliverable: "Live Team Presentations"
     },
     {
       title: "Winners Announcement",
-      date: new Date("2025-06-15T12:00:00"),
+      date: new Date("2025-06-18T12:00:00"),
+      unlockDate: new Date("2025-06-11T00:00:00"),
       deliverable: "Top 3 Winners Revealed"
     }
   ];
@@ -59,12 +79,12 @@ export default function Timeline({ isMobile }) {
     });
   };
 
-  const isEventLocked = (eventDate) => {
-    return currentTime < eventDate;
+  const isEventLocked = (eventUnlockDate) => {
+    return currentTime < eventUnlockDate;
   };
 
   const TimelineItem = ({ item, index }) => {
-    const locked = isEventLocked(item.date);
+    const locked = isEventLocked(item.unlockDate);
     const dateStr = formatDate(item.date);
     
     return (
@@ -80,7 +100,7 @@ export default function Timeline({ isMobile }) {
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="bg-white/90 px-4 py-2 rounded-full shadow-md flex items-center">
                 <Lock className="w-4 h-4 mr-2 text-red-500" />
-                <span className="text-xs font-bold text-red-600">Unlocks {dateStr}</span>
+                <span className="text-xs font-bold text-red-600">Unlocks {formatDate(item.unlockDate)}</span>
               </div>
             </div>
           )}
