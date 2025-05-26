@@ -15,29 +15,29 @@ export default function Timeline({ isMobile }) {
   const timelineData = [
     {
       title: "Problem Statement Announcement",
-      date: new Date("2025-05-28T00:00:00"),
-      unlockDate: new Date("2025-05-28T00:00:00"),
+      date: new Date("2025-05-28T23:59:00"),
+      unlockDate: new Date("2025-05-28T23:59:00"),
       deliverable: "Competition Kick-off",
       note: "Check website for detailed problem statements"
     },
     {
       title: "Round 1 Submissions Open",
-      date: new Date("2025-05-28T00:00:00"),
-      unlockDate: new Date("2025-05-28T00:00:00"),
+      date: new Date("2025-05-28T23:59:00"),
+      unlockDate: new Date("2025-05-28T23:59:00"),
       deliverable: "Submission window begins",
-      note: "File format: teamname_round1_greenx.*"
+      note: "File format: teamname_round1_greenx.pdf or .ppt*"
     },
     {
       title: "Round 1 Submissions Close",
       date: new Date("2025-06-02T23:59:00"),
-      unlockDate: new Date("2025-05-28T00:00:00"),
+      unlockDate: new Date("2025-06-02T23:59:00"),
       deliverable: "Concept Brief Submission Deadline",
       note: "Submit before this time"
     },
     {
       title: "Round 1 Results Announcement",
       date: new Date("2025-06-03T23:59:00"),
-      unlockDate: new Date("2025-06-03T00:00:00"),
+      unlockDate: new Date("2025-06-03T23:59:00"),
       deliverable: "Top 10 Teams Selected"
     },
     {
@@ -45,25 +45,25 @@ export default function Timeline({ isMobile }) {
       date: new Date("2025-06-04T00:00:00"),
       unlockDate: new Date("2025-06-04T00:00:00"),
       deliverable: "Detailed solution window begins",
-      note: "File format: teamname_round2_greenx.*"
+      note: "File format: teamname_round2_greenx.pdf or ppt*"
     },
     {
       title: "Round 2 Submissions Close",
       date: new Date("2025-06-10T23:59:00"),
-      unlockDate: new Date("2025-06-04T00:00:00"),
+      unlockDate: new Date("2025-06-10T23:59:00"),
       deliverable: "Detailed Presentation Deck Deadline",
       note: "Submit before this time"
     },
     {
       title: "Final Presentation Day",
       date: new Date("2025-06-11T10:00:00"),
-      unlockDate: new Date("2025-06-11T00:00:00"),
+      unlockDate: new Date("2025-06-10T23:59:00"),
       deliverable: "Live Team Presentations"
     },
     {
       title: "Winners Announcement",
-      date: new Date("2025-06-18T12:00:00"),
-      unlockDate: new Date("2025-06-11T00:00:00"),
+      date: new Date("2025-06-15T12:00:00"),
+      unlockDate: new Date("2025-06-15T11:59:00"),
       deliverable: "Top 3 Winners Revealed"
     }
   ];
@@ -137,7 +137,7 @@ export default function Timeline({ isMobile }) {
         <div className="mt-16 text-center">
           <div className="inline-flex items-center bg-white/30 backdrop-blur-sm border-2 border-green-300/30 rounded-full px-8 py-4 shadow-lg">
             <div className="w-3 h-3 bg-red-500 rounded-full mr-4 animate-pulse"></div>
-            <span className="text-green-700 font-bold text-lg">Registration Deadline: May 27, 2025</span>
+            <span className="text-green-700 font-bold text-lg">Registration Deadline: May 27, 2025 (EOD)</span>
           </div>
         </div>
       </div>

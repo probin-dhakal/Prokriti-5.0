@@ -283,7 +283,7 @@ export default function App() {
                 </div>
               </div>
               <p className="mt-6 text-green-600/70">
-                Problems will be available at 00:00 AM IST on May 29, 2025
+                Problems will be available at 11:59 PM IST on May 28, 2025
               </p>
             </div>
           )}
