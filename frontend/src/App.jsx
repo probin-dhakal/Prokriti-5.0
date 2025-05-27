@@ -218,23 +218,24 @@ export default function App() {
           </div>
 
           {/* Event Stats */}
-          <div className="grid md:grid-cols-3 gap-8 mb-16">
-            {[
-              { icon: <Calendar className="w-12 h-12" />, label: "Event Duration", value: "25 May - 8 June", color: "green", bg: "from-green-400 to-emerald-500" },
-              { icon: <Award className="w-12 h-12" />, label: "Prize Pool", value: "₹24,000", color: "amber", bg: "from-yellow-400 to-orange-500" },
-              { icon: <Code className="w-12 h-12" />, label: "Format", value: "Virtual", color: "teal", bg: "from-teal-400 to-emerald-500" }
-            ].map((stat, index) => (
-              <div key={index} className="group">
-                <div className="bg-white/30 backdrop-blur-xl border-2 border-green-200/30 rounded-3xl p-10 hover:bg-white/40 transition-all duration-300 hover:scale-105 shadow-xl hover:shadow-2xl">
-                  <div className={`text-white mb-6 flex justify-center group-hover:scale-110 transition-transform bg-gradient-to-r ${stat.bg} rounded-2xl p-4 w-fit mx-auto shadow-lg`}>
-                    {stat.icon}
-                  </div>
-                  <h3 className="text-xl font-bold text-green-800 mb-3">{stat.label}</h3>
-                  <p className={`text-3xl font-black bg-gradient-to-r ${stat.bg} bg-clip-text text-transparent`}>{stat.value}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+       {/* Event Stats */}
+<div className="grid md:grid-cols-3 gap-8 mb-16">
+  {[
+    { icon: <Calendar className="w-12 h-12" />, label: "Event Duration", value: "25 May - 8 June", color: "green", bg: "from-green-400 to-emerald-500" },
+    { icon: <Code className="w-12 h-12" />, label: "Format", value: "Virtual", color: "teal", bg: "from-teal-400 to-emerald-500" },
+    { icon: <Award className="w-12 h-12" />, label: "Event Type", value: "Hackathon", color: "amber", bg: "from-yellow-400 to-orange-500" }
+  ].map((stat, index) => (
+    <div key={index} className="group">
+      <div className="bg-white/30 backdrop-blur-xl border-2 border-green-200/30 rounded-3xl p-10 hover:bg-white/40 transition-all duration-300 hover:scale-105 shadow-xl hover:shadow-2xl">
+        <div className={`text-white mb-6 flex justify-center group-hover:scale-110 transition-transform bg-gradient-to-r ${stat.bg} rounded-2xl p-4 w-fit mx-auto shadow-lg`}>
+          {stat.icon}
+        </div>
+        <h3 className="text-xl font-bold text-green-800 mb-3">{stat.label}</h3>
+        <p className={`text-3xl font-black bg-gradient-to-r ${stat.bg} bg-clip-text text-transparent`}>{stat.value}</p>
+      </div>
+    </div>
+  ))}
+</div>
         </div>
       </section>
 
