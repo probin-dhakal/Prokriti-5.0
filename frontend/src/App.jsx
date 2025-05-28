@@ -239,6 +239,16 @@ export default function App() {
         </div>
       </section>
 
+      {/* Registration Button */}
+      <div className="text-center mt-5">
+        <a href="https://forms.gle/cpJdoQpAtenTg8nL9" target="_blank" rel="nooreferrer">
+          <button className="px-5 py-2 text-lg bg-blue-600 text-white border-none rounded cursor-pointer hover:bg-blue-700 transition-colors">
+            Register Now
+          </button>
+        </a>
+      </div>
+
+
       {/* Problem Statements */}
       <section id="problems" className="relative py-32 px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
