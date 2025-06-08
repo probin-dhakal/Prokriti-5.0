@@ -394,7 +394,7 @@ export default function App() {
             </p>
             <div>.</div>
             <a
-              href="https://forms.gle/XtbMSB2v4w58wz646"
+              href="https://forms.gle/Zp566hbh1gmwpPpW8"
               target="_blank"
               rel="noopener noreferrer"
               className={`inline-flex items-center px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 shadow-lg transform
